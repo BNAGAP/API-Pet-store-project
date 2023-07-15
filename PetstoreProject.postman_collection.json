@@ -1,0 +1,348 @@
+{
+	"info": {
+		"_postman_id": "397a4c06-e7f4-4c20-b695-9f7d6813e8b2",
+		"name": "PetstoreProject",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27367191",
+		"_collection_link": "https://grey-escape-584086.postman.co/workspace/Team-Workspace~8c9497ab-fbaf-46a0-8665-e7ef9cfc509c/collection/27367191-397a4c06-e7f4-4c20-b695-9f7d6813e8b2?action=share&creator=27367191&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "PetModule",
+			"item": [
+				{
+					"name": "Update Pet details",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 2,\r\n  \"category\": {\r\n    \"id\": 2,\r\n    \"name\": \"dango\"\r\n  },\r\n  \"name\": \"dongo\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 2,\r\n      \"name\": \"dango\"\r\n    }\r\n  ],\r\n  \"status\": \"Unavailable\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_qa_url}}/pet",
+							"host": [
+								"{{base_qa_url}}"
+							],
+							"path": [
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json(); \r",
+									"pm.test(\"Verify ID\", function () { \r",
+									"        pm.expect(jsonData.id).is.to.equal(3); \r",
+									"    });\r",
+									"    var jsonData = pm.response.json(); \r",
+									"pm.test(\"Verify name\", function () { \r",
+									"        pm.expect(jsonData.name).is.to.equal(\"doggie\"); \r",
+									"    });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 3,\r\n  \"category\": {\r\n    \"id\": 0,\r\n    \"name\": \"string\"\r\n  },\r\n  \"name\": \"doggie\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"string\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_qa_url}}/pet",
+							"host": [
+								"{{base_qa_url}}"
+							],
+							"path": [
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get pet by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_qa_url}}/pet/3",
+							"host": [
+								"{{base_qa_url}}"
+							],
+							"path": [
+								"pet",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get pet by status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_qa_url}}/pet/findByStatus?status=sold&pending",
+							"host": [
+								"{{base_qa_url}}"
+							],
+							"path": [
+								"pet",
+								"findByStatus"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "sold"
+								},
+								{
+									"key": "pending",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "StoreModule",
+			"item": [
+				{
+					"name": "Create an order 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"var jsonData = pm.response.json(); \r",
+									"pm.test(\"Verify ID\", function () { \r",
+									"        pm.expect(jsonData.id).is.to.equal(3); \r",
+									"    });\r",
+									"    \r",
+									"pm.test(\"Verify Quantity\", function () { \r",
+									"        pm.expect(jsonData.quantity).is.to.equal(3); \r",
+									"    });\r",
+									"    pm.test(\"Verify Status\", function () { \r",
+									"        pm.expect(jsonData.status).is.to.equal(\"placed\"); \r",
+									"    });\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 3,\r\n  \"petId\": 0,\r\n  \"quantity\": 3,\r\n  \"shipDate\": \"2023-07-10T23:09:20.967Z\",\r\n  \"status\": \"placed\",\r\n  \"complete\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_qa_url}}/store/order",
+							"host": [
+								"{{base_qa_url}}"
+							],
+							"path": [
+								"store",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_qa_url}}/store/inventory",
+							"host": [
+								"{{base_qa_url}}"
+							],
+							"path": [
+								"store",
+								"inventory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get pet by order ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_qa_url}}/store/order/3",
+							"host": [
+								"{{base_qa_url}}"
+							],
+							"path": [
+								"store",
+								"order",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UserModule",
+			"item": [
+				{
+					"name": "User logged in",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "alex123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "alex5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_qa_url}}/user/login",
+							"host": [
+								"{{base_qa_url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user ID 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"  \r",
+									"\r",
+									"\r",
+									"\r",
+									"    \r",
+									"\r",
+									"   \r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n{\r\n  \"id\": 2,\r\n  \"username\": \"mike2\",\r\n  \"firstName\": \"jordan\",\r\n  \"lastName\": \"mike\",\r\n  \"email\": \"mikejordan@email.com\",\r\n  \"password\": \"mike123\",\r\n  \"phone\": \"01234567890\",\r\n  \"userStatus\": 2\r\n}\r\n]\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_qa_url}}/user/createWithList",
+							"host": [
+								"{{base_qa_url}}"
+							],
+							"path": [
+								"user",
+								"createWithList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User log out",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_qa_url}}/user/logout",
+							"host": [
+								"{{base_qa_url}}"
+							],
+							"path": [
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_qa_url}}/user/mike2",
+							"host": [
+								"{{base_qa_url}}"
+							],
+							"path": [
+								"user",
+								"mike2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
